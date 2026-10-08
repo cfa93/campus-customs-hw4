@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Customs — App Check</title>
+    <style>
+      :root {
+        --navy: #0f2742;
+        --cream: #f6efe0;
+        --card: #fffdf8;
+        --ink: #152a40;
+        --muted: #5d6b78;
+        --gold: #9a6b16;
+        --border: #e6ddc8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+      }
+      header {
+        background: var(--navy);
+        color: var(--cream);
+        padding: 2rem 1.5rem;
+        border-bottom: 3px solid var(--gold);
+      }
+      header h1 { margin: 0 0 0.3rem; font-size: 1.8rem; }
+      header p { margin: 0; color: rgba(246, 239, 224, 0.8); }
+      main { max-width: 880px; margin: 0 auto; padding: 1.5rem; }
+      .check {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 10px rgba(15, 39, 66, 0.08);
+      }
+      .check h2 { margin: 0 0 0.2rem; color: var(--navy); font-size: 1.25rem; }
+      .tag {
+        display: inline-block;
+        background: rgba(154, 107, 22, 0.12);
+        color: var(--gold);
+        border-radius: 999px;
+        padding: 0.1rem 0.7rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+      }
+      .check p { margin: 0.5rem 0 1rem; color: var(--ink); }
+      .check img {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        display: block;
+        background: #fff;
+      }
+      .proof {
+        background: var(--cream);
+        border-left: 3px solid var(--gold);
+        padding: 0.6rem 0.9rem;
+        margin-top: 1rem;
+        border-radius: 0 8px 8px 0;
+        font-size: 0.92rem;
+      }
+      code { background: #eee5d0; padding: 0.05rem 0.35rem; border-radius: 4px; }
+      footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 2rem 1rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Campus Customs — App Check</h1>
+      <p>Live checks of the running site (frontend on :5173, backend on :8000) against the real database.</p>
+    </header>
+    <main>
+      <div class="check">
+        <span class="tag">Site loads</span>
+        <h2>1. The storefront is up and running</h2>
+        <p>
+          The homepage loads with the navy-and-cream campus look, the navbar, and the floating chat bubble.
+          This confirms the frontend and backend are both serving before the feature checks below.
+        </p>
+        <img src="app_check_images/01_home.png" alt="Campus Customs homepage" />
+      </div>
+
+      <div class="check">
+        <span class="tag">Chatbot → cards</span>
+        <h2>2. Asking for hoodies shows dynamic product cards</h2>
+        <p>
+          Asked the chatbot "what hoodies do you have?" and it replied with real hoodie product cards — each
+          with photo, name and price — rendered live inside the chat. This proves the agent searches the
+          catalogue and the frontend renders the matches it returns.
+        </p>
+        <img src="app_check_images/02_hoodies_chat_cards.png" alt="Chat showing hoodie product cards" />
+      </div>
+
+      <div class="check">
+        <span class="tag">Chatbot → page</span>
+        <h2>3. The same matches update the page</h2>
+        <p>
+          The products the bot matched also appear on the homepage in a "Picked from your chat" grid, so the
+          page itself updates from the conversation. Each card links to that product's own page.
+        </p>
+        <img src="app_check_images/03_hoodies_page_cards.png" alt="Picked from your chat grid on the homepage" />
+      </div>
+
+      <div class="check">
+        <span class="tag">Correct price &amp; stock</span>
+        <h2>4. The bot reports real price and stock from the database</h2>
+        <p>
+          Asked "How much is the Basic Hoodie Big Yale, and is it in stock in medium?" The bot answered
+          <strong>$68</strong> and <strong>in stock in medium (M) — 5 left</strong>.
+        </p>
+        <img src="app_check_images/04_price_stock.png" alt="Chat answer with price and stock" />
+        <div class="proof">
+          <strong>Verified against the database:</strong> <code>basic-hoodie-big-yale</code> has
+          <code>price = 68.0</code> and inventory <code>M = 5</code>. The bot's answer matches exactly, so it is
+          reading real data, not guessing.
+        </div>
+      </div>
+
+      <div class="check">
+        <span class="tag">Filters: category + price</span>
+        <h2>5. Category and price filters both apply together</h2>
+        <p>
+          On the Products page, set <strong>Category = Hoodies</strong> and <strong>Price = $60–$80</strong>. The
+          grid shows <strong>23 of 102</strong> items, and every card is a hoodie priced $68.
+        </p>
+        <img src="app_check_images/05_filters.png" alt="Products filtered to Hoodies, $60 to $80" />
+        <div class="proof">
+          <strong>Both filters hold:</strong> of 27 hoodies in the catalogue (2 at $45, 23 at $68, 2 at $88), only
+          the 23 priced $60–$80 are shown — the cheaper $45 and pricier $88 hoodies are correctly excluded. The
+          23 cards exactly match the catalogue's Hoodies-in-range set, so results satisfy the category
+          <em>and</em> the price filter.
+        </div>
+      </div>
+    </main>
+    <footer>
+      Generated from the running Campus Customs app. Open this file by double-clicking; screenshots load from
+      <code>app_check_images/</code>.
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+# Private data (repo is public)
+data/campus_customs.db
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+data/products/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node / Vite
+node_modules/
+dist/
+*.local
